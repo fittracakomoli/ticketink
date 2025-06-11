@@ -22,7 +22,7 @@
                     </li>
                     <li class="shrink-0">
                         <a href="#" title="" class="flex text-md font-medium hover:text-primary-700">
-                            Tentang Kami
+                            Tentang Ticketink
                         </a>
                     </li>
                     <li class="shrink-0">
