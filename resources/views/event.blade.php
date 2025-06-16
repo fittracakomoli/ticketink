@@ -17,11 +17,7 @@
                     <div class="flex items-center flex-1 space-x-4">
                         <h5>
                             <span class="text-gray-500">Jumlah Event:</span>
-                            <span class="">1</span>
-                        </h5>
-                        <h5>
-                            <span class="text-gray-500">Total Penjualan:</span>
-                            <span class="">Rp 100.000</span>
+                            <span class="">{{ $events->count() }}</span>
                         </h5>
                     </div>
                     <div class="flex flex-col flex-shrink-0 space-y-3 md:flex-row md:items-center lg:justify-end md:space-y-0 md:space-x-3">
@@ -45,7 +41,6 @@
                                 <th scope="col" class="px-4 py-3">Lokasi</th>
                                 <th scope="col" class="px-4 py-3">Sisa Tiket</th>
                                 <th scope="col" class="px-4 py-3">Terjual</th>
-                                <th scope="col" class="px-4 py-3"><span class="sr-only">Actions</span></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -53,10 +48,20 @@
                             <tr class="border-b border-gray-200 hover:bg-gray-100">
                                 <th scope="row" class="flex items-center px-4 py-2 font-medium text-gray-900 whitespace-nowrap ">
                                     <img src="{{ asset($event->image) }}" alt="{{ $event->slug }}" class="w-auto h-8 mr-3">
-                                    {{ $event->name }}
+                                    <a href="{{ route('event.edit', $event->id) }}" class="hover:underline text-gray-900">
+                                        {{ $event->name }}
+                                    </a>
                                 </th>
                                 <td class="px-4 py-2">
-                                    <span class="bg-primary-100 text-primary-800 text-xs font-medium px-2 py-0.5 rounded">{{ Str::ucfirst($event->category) }}</span>
+                                    <span class="text-xs font-medium px-2 py-0.5 rounded
+                                    @if ($event->category == 'outdoor')
+                                    bg-primary-100 text-primary-800
+                                    @elseif ($event->category == 'indoor')
+                                    bg-green-100 text-green-800
+                                    @elseif ($event->category == 'virtual')
+                                    bg-yellow-100 text-yellow-800
+                                    @endif
+                                    ">{{ Str::ucfirst($event->category) }}</span>
                                 </td>
                                 <td class="px-4 py-2 font-medium text-gray-900 ">{{ Str::limit($event->description, 20, '...') }}</td>
                                 <td class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap ">
@@ -71,23 +76,6 @@
                                     </div>
                                 </td>
                                 <td class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap ">-</td>
-                                <td class="px-4 py-3 flex items-center justify-end">
-                                    <button id="jnf-dropdown-button" data-dropdown-toggle="jnf-dropdown" class="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none" type="button">
-                                        <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
-                                        </svg>
-                                    </button>
-                                    <div id="jnf-dropdown" class="hidden w-44 bg-white rounded divide-y divide-gray-100 shadow">
-                                        <ul class="py-1 text-sm text-gray-700" aria-labelledby="jnf-dropdown-button">
-                                            <li>
-                                                <a href="#" class="block py-2 px-4 hover:bg-gray-100">Edit</a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="block py-2 px-4 hover:bg-gray-100">Hapus</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -165,6 +153,7 @@
                                         <option selected="">Pilih Kategori</option>
                                         <option value="indoor">Indoor</option>
                                         <option value="outdoor">Outdoor</option>
+                                        <option value="virtual">Virtual</option>
                                     </select>
                                 </div>
                                 <div class="sm:col-span-2">
