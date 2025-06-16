@@ -14,7 +14,6 @@ Route::get('/tiketsaya', function () {
     return view('tiketsaya');
 });
 
-<<<<<<< HEAD
 Route::get('/about', function () {
     return view('about');
 });
@@ -22,9 +21,6 @@ Route::get('/about', function () {
 Route::get('/contact', function () {
     return view('contact');
 });
-=======
-Route::get('/tickets', [EventController::class, 'show'])->name('event.show');
->>>>>>> 2900649b0efd77e97d2d0190900edf200a018c5c
 
 Route::get('/dashboard', function () {
     return view('dashboard');
