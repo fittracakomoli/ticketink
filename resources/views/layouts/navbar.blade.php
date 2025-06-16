@@ -21,13 +21,8 @@
                         </a>
                     </li>
                     <li class="shrink-0">
-<<<<<<< HEAD
                         <a href="/about" title="" class="flex text-md font-medium hover:text-primary-700">
                             Tentang Kami
-=======
-                        <a href="/checkout" title="" class="flex text-md font-medium hover:text-primary-700">
-                            Tentang Ticketink
->>>>>>> 2900649b0efd77e97d2d0190900edf200a018c5c
                         </a>
                     </li>
                     <li class="shrink-0">

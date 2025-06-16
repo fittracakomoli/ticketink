@@ -10,9 +10,7 @@ Route::get('/', function () {
     return view('home');
 })->name('home');
 
-Route::get('/tiketsaya', function () {
-    return view('tiketsaya');
-});
+Route::get('/tickets', [EventController::class, 'show'])->name('event.show');
 
 Route::get('/about', function () {
     return view('about');
