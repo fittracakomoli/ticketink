@@ -21,12 +21,12 @@
                         </a>
                     </li>
                     <li class="shrink-0">
-                        <a href="#" title="" class="flex text-md font-medium hover:text-primary-700">
+                        <a href="/about" title="" class="flex text-md font-medium hover:text-primary-700">
                             Tentang Kami
                         </a>
                     </li>
                     <li class="shrink-0">
-                        <a href="#" title="" class="flex text-md font-medium hover:text-primary-700">
+                        <a href="/contact" title="" class="flex text-md font-medium hover:text-primary-700">
                             Kontak Kami
                         </a>
                     </li>
