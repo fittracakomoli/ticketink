@@ -16,13 +16,18 @@
                         </a>
                     </li>
                     <li class="shrink-0">
-                        <a href="/tickets" title="" class="flex text-md font-medium hover:text-primary-700">
+                        <a href="{{ route('event.show') }}" title="" class="flex text-md font-medium hover:text-primary-700">
                             Beli Tiket
                         </a>
                     </li>
                     <li class="shrink-0">
+<<<<<<< HEAD
                         <a href="/about" title="" class="flex text-md font-medium hover:text-primary-700">
                             Tentang Kami
+=======
+                        <a href="/checkout" title="" class="flex text-md font-medium hover:text-primary-700">
+                            Tentang Ticketink
+>>>>>>> 2900649b0efd77e97d2d0190900edf200a018c5c
                         </a>
                     </li>
                     <li class="shrink-0">
@@ -72,7 +77,7 @@
                             <a href="#" title="" class="inline-flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-gray-100"> Edit Profil </a>
                         </li>
                         <li>
-                            <a href="#" title="" class="inline-flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-gray-100"> Tiket Saya </a>
+                            <a href="{{ route('my.tickets') }}" title="" class="inline-flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-gray-100"> Tiket Saya </a>
                         </li>
                     </ul>
         

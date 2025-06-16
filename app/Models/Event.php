@@ -23,6 +23,10 @@ class Event extends Model
         'image',
     ];
 
+    protected $casts = [
+        'date_time' => 'datetime',
+    ];
+
     // Membuat slug otomatis dari nama event
     protected static function booted()
     {

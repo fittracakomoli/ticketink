@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('location');
             $table->decimal('total', 20, 0);
             $table->string('image');
-            $table->enum('status', ['accept', 'decline', 'pending'])->default('pending');
+            $table->enum('status', ['accept', 'decline', 'pending']);
             $table->timestamps();
         });
     }

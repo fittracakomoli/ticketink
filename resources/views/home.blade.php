@@ -9,28 +9,13 @@
             <h1 class="mb-4 text-2xl font-extrabold tracking-tight leading-none text-gray-50 md:text-3xl lg:text-4xl">Hai kamu, mau ng-event kemana?</h1>
             <p class="mb-8 text-lg font-normal text-gray-50 lg:text-xl sm:px-16 xl:px-48">Jelajahi tiket event bersama ticket-ink.com</p>
             <div class="mb-8 lg:mb-16 space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4">      
-                <form class="max-w-3xl mx-auto">   
+                <form class="max-w-3xl mx-auto" method="GET" action="{{ route('event.show') }}">   
                     <div class="flex">
                         <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only">Search</label>
-                        <input type="search" id="default-search" class="block w-full p-4 text-sm text-gray-900 border border-gray-300 rounded-s-xl bg-gray-50 focus:ring-blue-500 focus:border-blue-500" placeholder="Cari event yang kamu sukai . . ." required />
+                        <input type="search" id="default-search" name="q" value="{{ request('q') }}" class="block w-full p-4 text-sm text-gray-900 border border-gray-300 rounded-s-xl bg-gray-50 focus:ring-blue-500 focus:border-blue-500" placeholder="Cari event yang kamu sukai . . ." required />
                         <button type="submit" class="text-white end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-e-xl text-sm px-4 py-2">Search</button>
                     </div>
                 </form>
-            </div>
-        </div>
-    </section>
-      
-    <section class="bg-white px-4 py-8 antialiased md:py-16">
-        <div class="mx-auto grid max-w-screen-xl rounded-lg bg-gray-50 p-4 md:p-8 lg:grid-cols-12 lg:gap-8 lg:p-16 xl:gap-16">
-            <div class="hidden md:col-span-4 md:mt-0 md:flex">
-                <img class="mb-4 md:h-full md:w-full" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/girl-with-rocket.svg" alt="peripherals" />
-            </div>
-            <div class="me-auto place-self-center lg:col-span-7">
-                <h1 class="mb-3 text-2xl font-bold leading-tight tracking-tight text-gray-900 md:text-4xl">
-                    Nantikan Event - Event Spesial di Kotamu
-                </h1>
-                <p class="mb-6 text-gray-500">Tunggu dan Nantikan Event - Event Spesial dan Spektakuler di Kota Kamu.</p>
-                <a href="#" class="inline-flex items-center justify-center rounded-lg bg-primary-700 px-5 py-3 text-center text-base font-medium text-white hover:bg-primary-800 focus:ring-4 focus:ring-primary-300"> Cek Sekarang! </a>
             </div>
         </div>
     </section>
