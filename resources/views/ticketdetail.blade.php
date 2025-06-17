@@ -1,5 +1,20 @@
 <x-main-layout>
-    <section class="pt-32 pb-16 bg-white">
+
+  <section id="home" class="pt-32 bg-cover bg-center">
+    <div class="py-2 px-4 mx-auto max-w-screen-xl text-center lg:px-0">
+        <div class="mb-8 space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4">      
+            <form class="mx-auto" method="GET" action="{{ route('event.show') }}">   
+                <div class="flex">
+                    <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only">Search</label>
+                    <input type="search" id="default-search" name="q" class="block w-full p-4 text-sm text-gray-900 border border-gray-300 rounded-s-xl bg-gray-50 focus:ring-blue-500 focus:border-blue-500" placeholder="Cari event yang kamu sukai . . ." value="{{ request('q') }}" required />
+                    <button type="submit" class="text-white end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-e-xl text-sm px-4 py-2">Search</button>
+                </div>
+            </form>
+        </div>
+    </div>
+  </section>
+
+    <section class="py-16 bg-white">
         <div class="max-w-screen-xl px-4 mx-auto 2xl:px-0">
           <div class="lg:grid lg:grid-cols-2 gap-8">
             <div class="shrink-0 ">

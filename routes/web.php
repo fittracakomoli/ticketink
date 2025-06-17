@@ -3,12 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\PurchaseController;
 
-Route::get('/', function () {
-    return view('home');
-})->name('home');
+Route::get('/', [EventController::class, 'home'])->name('home');
 
 Route::get('/tickets', [EventController::class, 'show'])->name('event.show');
 

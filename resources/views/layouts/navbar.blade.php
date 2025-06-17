@@ -11,7 +11,7 @@
   
                 <ul class="hidden lg:flex items-center justify-start gap-6 md:gap-8 py-3 sm:justify-center">
                     <li class="shrink-0">
-                        <a href="/" title="" class="flex text-sm font-normal hover:text-primary-700">
+                        <a href="{{ route('home') }}" title="" class="flex text-sm font-normal hover:text-primary-700">
                             Beranda
                         </a>
                     </li>

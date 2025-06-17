@@ -10,6 +10,21 @@ use Illuminate\Support\Facades\Validator;
 
 class EventController extends Controller
 {
+
+    public function home()
+    {
+        // Event populer: status 'accept', urut terbanyak terjual, limit 4
+        $popularEvents = Event::withCount('pembelians')
+            ->where('status', 'accept')
+            ->orderBy('pembelians_count', 'desc')
+            ->limit(4)
+            ->get();
+
+        // ...ambil data lain jika perlu
+
+        return view('home', compact('popularEvents'));
+    }
+
     public function show(Request $request)
     {
         $query = Event::where('status', 'accept');
@@ -67,7 +82,7 @@ class EventController extends Controller
     // Tampilkan halaman event beserta data event
     public function index()
     {
-        $events = Event::all();
+        $events = Event::withCount('pembelians')->orderBy('date', 'desc')->paginate(10);
         return view('event', compact('events'));
     }
 

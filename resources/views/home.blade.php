@@ -24,226 +24,45 @@
                 </div>
             </div>
             <div class="mb-4 grid gap-4 sm:grid-cols-2 md:mb-8 lg:grid-cols-3 xl:grid-cols-4">
+            @foreach($popularEvents as $event)
                 <div class="rounded-lg border border-gray-200 bg-white shadow-lg">
                     <div class="w-full">
-                        <a href="">
-                            <img class="mx-auto w-full h-48 object-cover object-center rounded-t-lg" src="\img\848274828252.jpg" />
+                        <a href="{{ route('ticket.detail', $event->slug) }}">
+                            <img class="mx-auto w-full h-48 object-cover object-center rounded-t-lg" src="{{ asset($event->image) }}" alt="{{ $event->name }}">
                         </a>
                     </div>
                     <div class="p-6">
                         <div class="mb-4 flex items-center justify-between gap-4">
-                            <span class="rounded px-2.5 py-0.5 text-xs font-medium bg-primary-100"> Outdoor </span>
+                            <span class="rounded px-2.5 py-0.5 text-xs font-medium bg-primary-100">
+                                {{ ucfirst($event->category) }}
+                            </span>
                             <div class="flex items-center gap-2">
-                                <svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <svg class="w-4 h-4 text-gray-500" aria-hidden="true" fill="none" viewBox="0 0 24 24">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 10h16m-8-3V4M7 7V4m10 3V4M5 20h14a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Zm3-7h.01v.01H8V13Zm4 0h.01v.01H12V13Zm4 0h.01v.01H16V13Zm-8 4h.01v.01H8V17Zm4 0h.01v.01H12V17Zm4 0h.01v.01H16V17Z"/>
-                                </svg>                  
-                                <p class="text-xs font-medium text-gray-500">25 Juni 2025</p>   
-                            </div>
-                        </div>
-                        <a href="#" class="text-lg font-semibold leading-tight text-gray-900 hover:underline">Jakarta Night Festival 2025</a>
-                        <ul class="mt-2 flex items-center gap-4">
-                            <li class="flex items-center gap-2">
-                                <svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                                    <path fill-rule="evenodd" d="M11.906 1.994a8.002 8.002 0 0 1 8.09 8.421 7.996 7.996 0 0 1-1.297 3.957.996.996 0 0 1-.133.204l-.108.129c-.178.243-.37.477-.573.699l-5.112 6.224a1 1 0 0 1-1.545 0L5.982 15.26l-.002-.002a18.146 18.146 0 0 1-.309-.38l-.133-.163a.999.999 0 0 1-.13-.202 7.995 7.995 0 0 1 6.498-12.518ZM15 9.997a3 3 0 1 1-5.999 0 3 3 0 0 1 5.999 0Z" clip-rule="evenodd"/>
                                 </svg>
-                                <p class="text-xs font-medium text-gray-500">Jakarta International Stadium</p>
-                            </li>
-                        </ul>
-                        <div class="mt-8 flex items-center justify-between gap-4">
-                            <p class="text-lg font-extrabold leading-tight text-gray-900">Rp 135.000</p>
-                            @auth
-                            <div class="flex items-center gap-2">
-                                <button type="button" class="inline-flex items-center rounded-lg border border-primary-300 p-2.5 text-sm font-medium text-white hover:bg-primary-800">
-                                    <svg class="h-5 w-5 text-primary-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6" />
-                                    </svg>
-                                </button>
-                                <a href="#" class="bg-primary-700 text-white text-base px-4 py-2.5 rounded-lg hover:bg-primary-900">
-                                    Beli
-                                </a>
+                                <p class="text-xs font-medium text-gray-500">
+                                    {{ \Carbon\Carbon::parse($event->date)->translatedFormat('d F Y') }}
+                                </p>
                             </div>
-                            @endauth
-
-                            @guest
-                            <div class="flex items-center gap-2">
-                                <button type="button" class="inline-flex items-center rounded-lg border border-primary-300 p-2.5 text-sm font-medium text-white hover:bg-primary-800">
-                                    <svg class="h-5 w-5 text-primary-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6" />
-                                    </svg>
-                                </button>
-                                <a href="{{ route('login') }}" class="bg-primary-700 text-white text-base px-4 py-2.5 rounded-lg hover:bg-primary-900">
-                                    Beli
-                                </a>
-                            </div>
-                            @endguest
                         </div>
-                    </div>
-                </div>
-                <div class="rounded-lg border border-gray-200 bg-white shadow-sm">
-                    <div class="w-full">
-                        <a href="">
-                            <img class="mx-auto w-full h-48 object-cover object-center rounded-t-lg" src="\img\848274828252.jpg" />
+                        <a href="{{ route('ticket.detail', $event->slug) }}" class="text-lg font-semibold leading-tight text-gray-900 hover:underline">
+                            {{ $event->name }}
                         </a>
-                    </div>
-                    <div class="p-6">
-                        <div class="mb-4 flex items-center justify-between gap-4">
-                            <span class="rounded px-2.5 py-0.5 text-xs font-medium bg-primary-100"> Outdoor </span>
-                            <div class="flex items-center gap-2">
-                                <svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 10h16m-8-3V4M7 7V4m10 3V4M5 20h14a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Zm3-7h.01v.01H8V13Zm4 0h.01v.01H12V13Zm4 0h.01v.01H16V13Zm-8 4h.01v.01H8V17Zm4 0h.01v.01H12V17Zm4 0h.01v.01H16V17Z"/>
-                                </svg>                  
-                                <p class="text-xs font-medium text-gray-500">25 Juni 2025</p>   
-                            </div>
-                        </div>
-                        <a href="#" class="text-lg font-semibold leading-tight text-gray-900 hover:underline">Jakarta Night Festival 2025</a>
                         <ul class="mt-2 flex items-center gap-4">
                             <li class="flex items-center gap-2">
-                                <svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-4 h-4 text-gray-500" aria-hidden="true" fill="currentColor" viewBox="0 0 24 24">
                                     <path fill-rule="evenodd" d="M11.906 1.994a8.002 8.002 0 0 1 8.09 8.421 7.996 7.996 0 0 1-1.297 3.957.996.996 0 0 1-.133.204l-.108.129c-.178.243-.37.477-.573.699l-5.112 6.224a1 1 0 0 1-1.545 0L5.982 15.26l-.002-.002a18.146 18.146 0 0 1-.309-.38l-.133-.163a.999.999 0 0 1-.13-.202 7.995 7.995 0 0 1 6.498-12.518ZM15 9.997a3 3 0 1 1-5.999 0 3 3 0 0 1 5.999 0Z" clip-rule="evenodd"/>
                                 </svg>
-                                <p class="text-xs font-medium text-gray-500">Jakarta International Stadium</p>
+                                <p class="text-xs font-medium text-gray-500">{{ $event->location }}</p>
                             </li>
                         </ul>
                         <div class="mt-8 flex items-center justify-between gap-4">
-                            <p class="text-lg font-extrabold leading-tight text-gray-900">Rp 135.000</p>
-                            @auth
-                            <div class="flex items-center gap-2">
-                                <button type="button" class="inline-flex items-center rounded-lg border border-primary-300 p-2.5 text-sm font-medium text-white hover:bg-primary-800">
-                                    <svg class="h-5 w-5 text-primary-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6" />
-                                    </svg>
-                                </button>
-                                <a href="#" class="bg-primary-700 text-white text-base px-4 py-2.5 rounded-lg hover:bg-primary-900">
-                                    Beli
-                                </a>
-                            </div>
-                            @endauth
-
-                            @guest
-                            <div class="flex items-center gap-2">
-                                <button type="button" class="inline-flex items-center rounded-lg border border-primary-300 p-2.5 text-sm font-medium text-white hover:bg-primary-800">
-                                    <svg class="h-5 w-5 text-primary-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6" />
-                                    </svg>
-                                </button>
-                                <a href="{{ route('login') }}" class="bg-primary-700 text-white text-base px-4 py-2.5 rounded-lg hover:bg-primary-900">
-                                    Beli
-                                </a>
-                            </div>
-                            @endguest
+                            <p class="text-lg font-extrabold leading-tight text-gray-900">Rp {{ number_format($event->price, 0, ',', '.') }}</p>
+                            <span class="text-xs text-gray-500">Terjual: {{ $event->pembelians_count }}</span>
                         </div>
                     </div>
                 </div>
-                <div class="rounded-lg border border-gray-200 bg-white shadow-sm">
-                    <div class="w-full">
-                        <a href="">
-                            <img class="mx-auto w-full h-48 object-cover object-center rounded-t-lg" src="\img\848274828252.jpg" />
-                        </a>
-                    </div>
-                    <div class="p-6">
-                        <div class="mb-4 flex items-center justify-between gap-4">
-                            <span class="rounded px-2.5 py-0.5 text-xs font-medium bg-primary-100"> Outdoor </span>
-                            <div class="flex items-center gap-2">
-                                <svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 10h16m-8-3V4M7 7V4m10 3V4M5 20h14a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Zm3-7h.01v.01H8V13Zm4 0h.01v.01H12V13Zm4 0h.01v.01H16V13Zm-8 4h.01v.01H8V17Zm4 0h.01v.01H12V17Zm4 0h.01v.01H16V17Z"/>
-                                </svg>                  
-                                <p class="text-xs font-medium text-gray-500">25 Juni 2025</p>   
-                            </div>
-                        </div>
-                        <a href="#" class="text-lg font-semibold leading-tight text-gray-900 hover:underline">Jakarta Night Festival 2025</a>
-                        <ul class="mt-2 flex items-center gap-4">
-                            <li class="flex items-center gap-2">
-                                <svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                                    <path fill-rule="evenodd" d="M11.906 1.994a8.002 8.002 0 0 1 8.09 8.421 7.996 7.996 0 0 1-1.297 3.957.996.996 0 0 1-.133.204l-.108.129c-.178.243-.37.477-.573.699l-5.112 6.224a1 1 0 0 1-1.545 0L5.982 15.26l-.002-.002a18.146 18.146 0 0 1-.309-.38l-.133-.163a.999.999 0 0 1-.13-.202 7.995 7.995 0 0 1 6.498-12.518ZM15 9.997a3 3 0 1 1-5.999 0 3 3 0 0 1 5.999 0Z" clip-rule="evenodd"/>
-                                </svg>
-                                <p class="text-xs font-medium text-gray-500">Jakarta International Stadium</p>
-                            </li>
-                        </ul>
-                        <div class="mt-8 flex items-center justify-between gap-4">
-                            <p class="text-lg font-extrabold leading-tight text-gray-900">Rp 135.000</p>
-                            @auth
-                            <div class="flex items-center gap-2">
-                                <button type="button" class="inline-flex items-center rounded-lg border border-primary-300 p-2.5 text-sm font-medium text-white hover:bg-primary-800">
-                                    <svg class="h-5 w-5 text-primary-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6" />
-                                    </svg>
-                                </button>
-                                <a href="#" class="bg-primary-700 text-white text-base px-4 py-2.5 rounded-lg hover:bg-primary-900">
-                                    Beli
-                                </a>
-                            </div>
-                            @endauth
-
-                            @guest
-                            <div class="flex items-center gap-2">
-                                <button type="button" class="inline-flex items-center rounded-lg border border-primary-300 p-2.5 text-sm font-medium text-white hover:bg-primary-800">
-                                    <svg class="h-5 w-5 text-primary-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6" />
-                                    </svg>
-                                </button>
-                                <a href="{{ route('login') }}" class="bg-primary-700 text-white text-base px-4 py-2.5 rounded-lg hover:bg-primary-900">
-                                    Beli
-                                </a>
-                            </div>
-                            @endguest
-                        </div>
-                    </div>
-                </div>
-                <div class="rounded-lg border border-gray-200 bg-white shadow-sm">
-                    <div class="w-full">
-                        <a href="">
-                            <img class="mx-auto w-full h-48 object-cover object-center rounded-t-lg" src="\img\848274828252.jpg" />
-                        </a>
-                    </div>
-                    <div class="p-6">
-                        <div class="mb-4 flex items-center justify-between gap-4">
-                            <span class="rounded px-2.5 py-0.5 text-xs font-medium bg-primary-100"> Outdoor </span>
-                            <div class="flex items-center gap-2">
-                                <svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 10h16m-8-3V4M7 7V4m10 3V4M5 20h14a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Zm3-7h.01v.01H8V13Zm4 0h.01v.01H12V13Zm4 0h.01v.01H16V13Zm-8 4h.01v.01H8V17Zm4 0h.01v.01H12V17Zm4 0h.01v.01H16V17Z"/>
-                                </svg>                  
-                                <p class="text-xs font-medium text-gray-500">25 Juni 2025</p>   
-                            </div>
-                        </div>
-                        <a href="#" class="text-lg font-semibold leading-tight text-gray-900 hover:underline">Jakarta Night Festival 2025</a>
-                        <ul class="mt-2 flex items-center gap-4">
-                            <li class="flex items-center gap-2">
-                                <svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                                    <path fill-rule="evenodd" d="M11.906 1.994a8.002 8.002 0 0 1 8.09 8.421 7.996 7.996 0 0 1-1.297 3.957.996.996 0 0 1-.133.204l-.108.129c-.178.243-.37.477-.573.699l-5.112 6.224a1 1 0 0 1-1.545 0L5.982 15.26l-.002-.002a18.146 18.146 0 0 1-.309-.38l-.133-.163a.999.999 0 0 1-.13-.202 7.995 7.995 0 0 1 6.498-12.518ZM15 9.997a3 3 0 1 1-5.999 0 3 3 0 0 1 5.999 0Z" clip-rule="evenodd"/>
-                                </svg>
-                                <p class="text-xs font-medium text-gray-500">Jakarta International Stadium</p>
-                            </li>
-                        </ul>
-                        <div class="mt-8 flex items-center justify-between gap-4">
-                            <p class="text-lg font-extrabold leading-tight text-gray-900">Rp 135.000</p>
-                            @auth
-                            <div class="flex items-center gap-2">
-                                <button type="button" class="inline-flex items-center rounded-lg border border-primary-300 p-2.5 text-sm font-medium text-white hover:bg-primary-800">
-                                    <svg class="h-5 w-5 text-primary-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6" />
-                                    </svg>
-                                </button>
-                                <a href="#" class="bg-primary-700 text-white text-base px-4 py-2.5 rounded-lg hover:bg-primary-900">
-                                    Beli
-                                </a>
-                            </div>
-                            @endauth
-
-                            @guest
-                            <div class="flex items-center gap-2">
-                                <button type="button" class="inline-flex items-center rounded-lg border border-primary-300 p-2.5 text-sm font-medium text-white hover:bg-primary-800">
-                                    <svg class="h-5 w-5 text-primary-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6" />
-                                    </svg>
-                                </button>
-                                <a href="{{ route('login') }}" class="bg-primary-700 text-white text-base px-4 py-2.5 rounded-lg hover:bg-primary-900">
-                                    Beli
-                                </a>
-                            </div>
-                            @endguest
-                        </div>
-                    </div>
-                </div>
+            @endforeach
             </div>
             <div class="w-full text-center">
                 <button type="button" class="rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100">Jelajahi Lebih Banyak</button>

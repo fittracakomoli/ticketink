@@ -1,7 +1,7 @@
 <x-main-layout>
     <section id="home" class="bg-cover bg-center">
         <div class="py-16 px-4 mx-auto max-w-screen-xl text-center lg:px-12">
-            <h1 class="mt-20 mb-36 text-2xl font-extrabold tracking-tight leading-none text-gray-50 md:text-3xl lg:text-4xl">Kontak Kami</h1>
+            <h1 class="mt-36 mb-24 text-2xl font-extrabold tracking-tight leading-none text-gray-50 md:text-3xl lg:text-4xl">Kontak Kami</h1>
         </div>
     </section>
 
