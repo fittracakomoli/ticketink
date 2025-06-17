@@ -109,4 +109,5 @@ class PurchaseController extends Controller
 
         return view('tiketsaya', compact('purchases'));
     }
+    
 }

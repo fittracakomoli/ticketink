@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Pembelian;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -35,5 +36,10 @@ class Event extends Model
                 $event->slug = Str::slug($event->name, '-');
             }
         });
+    }
+
+    public function pembelians()
+    {
+        return $this->hasMany(Pembelian::class);
     }
 }

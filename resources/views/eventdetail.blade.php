@@ -85,7 +85,7 @@
             </aside>
             <!-- Right content -->
             <div x-show="tab === 'edit'" class="w-full">
-                <form action="{{ route('event.update', $event->id) }}" enctype="multipart/form-data" method="POST" class="w-full space-y-6 lg:space-y-8 border border-gray-200 bg-white p-4 shadow-sm lg:block lg:rounded-lg">
+                <form action="{{ route('event.update', $event->id) }}" enctype="multipart/form-data" method="POST" class="w-full border border-gray-200 bg-white p-4 shadow-sm lg:block lg:rounded-lg">
                   @csrf
                   @method('PATCH')
                     <div class="space-y-6">
@@ -154,11 +154,222 @@
             </div>
 
             {{-- Second Content --}}
-            <div x-show="tab === 'purchase'" class="w-full">
-                hello world
+            <div x-show="tab === 'purchase'" class="w-full bg-white rounded-lg p-4">
+              <div class="flex items-center justify-between border-b border-gray-100 mb-4 pb-4">
+                <h3 class="text-xl font-semibold text-gray-900">DAFTAR PEMBELI</h3>
+                <button id="start-scan-button" type="button" class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-xs px-5 py-2.5">
+                  Mulai Scan Check-in
+                </button>
+              </div>
+
+              {{-- QR Code Scanner Interface --}}
+              <div id="qr-scanner-container" class="mb-6" style="display:none;">
+                <div id="qr-reader" style="width:100%; max-width:400px; margin: 0 auto;"></div>
+                <div id="qr-reader-results" class="mt-4 text-center"></div>
+                <label for="manual-code-input" class="block mb-2 text-sm font-medium text-gray-900">Masukkan Kode Unik Manual:</label>
+                <div class="flex gap-2 w-full">
+                    <input type="text" id="manual-code-input" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 w-full" placeholder="Contoh: T-67876">
+                    <button id="submit-manual-code-button" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm w-64">
+                      Check-in
+                    </button>
+                </div>
+                <div id="manual-checkin-results" class="mt-2 text-sm"></div>
+                <button id="stop-scan-button" type="button" class="mt-2 text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5" style="display:none;">
+                    Stop Scan
+                </button>
+              </div>
+              
+              <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
+              <table class="w-full text-sm text-left text-gray-500">
+                <thead class="text-xs text-gray-700 bg-gray-50">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">
+                            Nama Pembeli
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Email
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Tgl. Pembelian
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Kode Unik
+                        </th>
+                        <th scope="col" class="px-6 py-3 whitespace-nowrap text-center">
+                          Kehadiran
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                  @foreach ($event->pembelians as $pembelian)
+                    @if ($pembelian->user) {{-- Pastikan data user ada --}}
+                      <tr class="bg-white border-b">
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                          {{ $pembelian->user->name }}
+                        </th>
+                        <td class="px-6 py-4">
+                          {{ $pembelian->user->email }}
+                        </td>
+                        <td class="px-6 py-4">
+                          {{ \Carbon\Carbon::parse($pembelian->tanggal_pembelian)->translatedFormat('d M Y, H:i') }}
+                        </td>
+                        <td class="px-6 py-4">
+                          {{ $pembelian->unique_code }}
+                        </td>
+                        <td class="px-6 py-4">
+                          {{ $pembelian->status }}
+                        </td>
+                      </tr>
+                    @endif
+                    @endforeach
+                </tbody>
+              </table>
+              </div>
             </div>
                 
           </div>
         </div>
+
+        <script src="https://unpkg.com/html5-qrcode@2.0.9/dist/html5-qrcode.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const startScanButton = document.getElementById('start-scan-button');
+            const stopScanButton = document.getElementById('stop-scan-button');
+            const qrScannerContainer = document.getElementById('qr-scanner-container');
+            const qrReaderElement = document.getElementById('qr-reader');
+            const qrReaderResultsElement = document.getElementById('qr-reader-results');
+            let html5QrCode;
+
+            const manualCodeInput = document.getElementById('manual-code-input');
+            const submitManualCodeButton = document.getElementById('submit-manual-code-button');
+            const manualCheckinResultsElement = document.getElementById('manual-checkin-results');
+
+            const eventId = {{ $event->id }}; // Get event ID
+
+            function processCheckin(code) {
+                console.log(`Processing check-in for code = ${code} for event ID = ${eventId}`);
+                manualCheckinResultsElement.textContent = `Memproses kode: ${code}...`;
+                qrReaderResultsElement.textContent = `Memproses: ${code}...`;
+
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+                fetch(`/api/events/${eventId}/checkin`, { 
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken,
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({ unique_code: code })
+                 })
+                  .then(response => {
+                    if (!response.ok) {
+                        return response.json().then(err => { throw err; });
+                    }
+                    return response.json();
+                  })
+                  .then(data => {
+                    if(data.success) {
+                        manualCheckinResultsElement.textContent = `Sukses: ${data.message}`;
+                        qrReaderResultsElement.textContent = `Sukses: ${data.message}`;
+                        // Optionally, refresh part of the page or the whole page
+                        // location.reload(); 
+                        // Or update the specific row in the table if you implement that
+                    } else {
+                        manualCheckinResultsElement.textContent = `Gagal: ${data.message}`;
+                        qrReaderResultsElement.textContent = `Gagal: ${data.message}`;
+                    }
+                  })
+                  .catch(error => {
+                    console.error('Error during check-in:', error);
+                    const errorMessage = error.message || 'Terjadi kesalahan saat check-in.';
+                    manualCheckinResultsElement.textContent = `Error: ${errorMessage}`;
+                    qrReaderResultsElement.textContent = `Error: ${errorMessage}`;
+                  });
+            }
+
+            function onScanSuccess(decodedText, decodedResult) {
+                qrReaderResultsElement.textContent = `Hasil Scan: ${decodedText}`;
+                processCheckin(decodedText);
+            }
+
+            function onScanFailure(error) {
+                // console.warn(`Code scan error = ${error}`);
+            }
+
+            startScanButton.addEventListener('click', () => {
+                qrScannerContainer.style.display = 'block';
+                stopScanButton.style.display = 'block';
+                startScanButton.style.display = 'none';
+                qrReaderResultsElement.textContent = ''; 
+                manualCheckinResultsElement.textContent = '';
+
+                html5QrCode = new Html5Qrcode("qr-reader");
+                const qrCodeSuccessCallback = (decodedText, decodedResult) => {
+                    onScanSuccess(decodedText, decodedResult);
+                };
+                const config = { fps: 10, qrbox: { width: 250, height: 250 } };
+
+                html5QrCode.start({ facingMode: "user" }, config, qrCodeSuccessCallback, onScanFailure)
+                .catch(err => {
+                    console.error("Failed to start QR scanner with front camera, trying environment.", err);
+                    html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback, onScanFailure)
+                    .catch(errInner => {
+                        qrReaderResultsElement.textContent = "Tidak dapat memulai kamera untuk scan.";
+                        console.error("Failed to start QR scanner.", errInner);
+                        qrScannerContainer.style.display = 'none';
+                        stopScanButton.style.display = 'none';
+                        startScanButton.style.display = 'inline-flex';
+                    });
+                });
+            });
+
+            stopScanButton.addEventListener('click', () => {
+                if (html5QrCode && html5QrCode.isScanning) {
+                    html5QrCode.stop().then(ignore => {
+                        qrScannerContainer.style.display = 'none';
+                        stopScanButton.style.display = 'none';
+                        startScanButton.style.display = 'inline-flex';
+                        qrReaderResultsElement.textContent = "Scan dihentikan.";
+                    }).catch(err => {
+                        console.error("Failed to stop QR scanner.", err);
+                        qrReaderResultsElement.textContent = "Gagal menghentikan scan.";
+                    });
+                }
+            });
+
+            submitManualCodeButton.addEventListener('click', () => {
+                const code = manualCodeInput.value.trim();
+                if (code) {
+                    processCheckin(code);
+                    manualCodeInput.value = ''; 
+                } else {
+                    manualCheckinResultsElement.textContent = 'Silakan masukkan kode unik.';
+                }
+            });
+
+            const observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    if (mutation.attributeName === "style") {
+                        const purchaseTabElement = qrScannerContainer.closest('[x-show="tab === \'purchase\'"]');
+                        if (purchaseTabElement) {
+                            const isPurchaseTabVisible = purchaseTabElement.style.display !== 'none';
+                            if (!isPurchaseTabVisible && html5QrCode && typeof html5QrCode.isScanning === 'boolean' && html5QrCode.isScanning) {
+                                html5QrCode.stop().then(ignore => {
+                                    qrScannerContainer.style.display = 'none';
+                                    stopScanButton.style.display = 'none';
+                                    startScanButton.style.display = 'inline-flex';
+                                }).catch(err => console.error("Failed to stop QR scanner on tab change.", err));
+                            }
+                        }
+                    }
+                });
+            });
+            const purchaseTabDiv = document.querySelector('[x-show="tab === \'purchase\'"]');
+            if(purchaseTabDiv){
+                 observer.observe(purchaseTabDiv, { attributes: true, subtree: true });
+            }
+        });
+    </script>
     
 </x-app-layout>

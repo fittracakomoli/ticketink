@@ -21,6 +21,8 @@ return new class extends Migration
             $table->decimal('total_pembayaran', 20, 0);
             $table->string('metode_pembayaran')->nullable();
             $table->enum('status_pembayaran', ['pending', 'paid', 'failed', 'expired', 'refunded', 'pending_confirmation'])->default('pending');
+            $table->enum('status', ['hadir', 'invalid', 'none'])->default('none');
+            $table->dateTime('checked_at')->nullable();
             $table->timestamp('tanggal_pembelian')->useCurrent();
             $table->timestamp('tanggal_pembayaran')->nullable();
             $table->timestamps();

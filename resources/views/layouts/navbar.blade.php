@@ -1,5 +1,5 @@
-<nav class="antialiased fixed w-full transition-all text-gray-50" id="navbar">
-    <div class="max-w-screen-xl px-4 mx-auto 2xl:px-0 py-4">
+<nav class="antialiased fixed w-full transition-all text-gray-50 bg-[#102041] z-10">
+    <div class="max-w-screen-xl px-4 mx-auto 2xl:px-0 py-6">
         <div class="flex items-center justify-between">
   
             <div class="flex items-center space-x-12 navlink">
@@ -11,39 +11,36 @@
   
                 <ul class="hidden lg:flex items-center justify-start gap-6 md:gap-8 py-3 sm:justify-center">
                     <li class="shrink-0">
-                        <a href="/" title="" class="flex text-md font-medium hover:text-primary-700">
+                        <a href="/" title="" class="flex text-sm font-normal hover:text-primary-700">
                             Beranda
                         </a>
                     </li>
                     <li class="shrink-0">
-                        <a href="{{ route('event.show') }}" title="" class="flex text-md font-medium hover:text-primary-700">
+                        <a href="{{ route('event.show') }}" title="" class="flex text-sm font-normal hover:text-primary-700">
                             Beli Tiket
                         </a>
                     </li>
                     <li class="shrink-0">
-                        <a href="/about" title="" class="flex text-md font-medium hover:text-primary-700">
+                        <a href="/about" title="" class="flex text-sm font-normal hover:text-primary-700">
                             Tentang Kami
                         </a>
                     </li>
                     <li class="shrink-0">
-                        <a href="/contact" title="" class="flex text-md font-medium hover:text-primary-700">
+                        <a href="/contact" title="" class="flex text-sm font-normal hover:text-primary-700">
                             Kontak Kami
                         </a>
                     </li>
                 </ul>
             </div>
   
-            <div class="flex items-center lg:space-x-2">
+            <div class="flex items-center space-x-2">
 
                 @guest
-                <a href="{{ route('login') }}" class="inline-flex items-center rounded-lg justify-center p-2 hover:bg-primary-700 text-sm font-medium leading-none">
-                    <svg class="w-4 h-4 lg:me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14v3m-3-6V7a3 3 0 1 1 6 0v4m-8 0h10a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1Z"/>
-                    </svg>
-                    <span>Log In</span>             
+                <a href="{{ route('login') }}" class="inline-flex border border-white items-center rounded-lg justify-center px-4 py-2.5 hover:bg-primary-700 text-sm font-medium leading-none">
+                    <span>Masuk</span>             
                 </a>
 
-                <a href="{{ route('register') }}" class="inline-flex items-center rounded-lg justify-center p-2 hover:bg-primary-700 text-sm font-medium leading-none">
+                <a href="{{ route('register') }}" class="inline-flex border border-primary-700 items-center rounded-lg justify-center px-4 py-2.5 bg-primary-700 text-sm font-medium leading-none">
                     <span>Daftar Sekarang</span>             
                 </a>
                 @endguest

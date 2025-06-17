@@ -7,11 +7,6 @@
 
     <div>
         <div class="max-w-7xl mx-auto my-8 sm:px-6 lg:px-8">
-            <div class="mb-4">
-                <h1 class="text-2xl font-semibold text-gray-800">List Event</h1>
-                <p class="text-gray-600">Daftar Event yang Telah Dibuat.</p>
-            </div>
-
             <div class="relative overflow-hidden bg-white shadow-md sm:rounded-lg">
                 <div class="flex flex-col px-4 py-3 space-y-3 lg:flex-row lg:items-center lg:justify-between lg:space-y-0 lg:space-x-4">
                     <div class="flex items-center flex-1 space-x-4">

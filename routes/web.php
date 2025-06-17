@@ -42,6 +42,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/checkout/bayar', [PurchaseController::class, 'bayar'])->name('checkout.bayar');
 
     Route::get('/tiket-saya', [PurchaseController::class, 'myTickets'])->name('my.tickets');
+
+    Route::post('/api/events/{event}/checkin', [EventController::class, 'checkInAttendee'])->name('api.event.checkin.web'); // Beri nama berbeda jika sudah ada di api.php
 });
 
 Route::get('/tickets/{slug}', [PurchaseController::class, 'detail'])->name('ticket.detail');

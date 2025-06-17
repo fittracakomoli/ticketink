@@ -3,23 +3,66 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Models\Pembelian;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class EventController extends Controller
 {
     public function show(Request $request)
     {
-    $query = Event::where('status', 'accept');
+        $query = Event::where('status', 'accept');
+        $searchQuery = $request->input('q', '');
+        $sortBy = $request->input('sort_by', 'newly_added'); // Default sorting: baru ditambahkan
 
-    if ($request->has('q') && $request->q != '') {
-        $query->where('name', 'like', '%' . $request->q . '%');
+        if ($searchQuery != '') {
+            $query->where('name', 'like', '%' . $searchQuery . '%');
+        }
+
+        switch ($sortBy) {
+            case 'name_asc':
+                $query->orderBy('name', 'asc'); // Abjad A-Z
+                break;
+            case 'name_desc':
+                $query->orderBy('name', 'desc'); // Abjad Z-A
+                break;
+            case 'price_desc':
+                $query->orderBy('price', 'desc'); // Harga Termahal
+                break;
+            case 'price_asc':
+                $query->orderBy('price', 'asc'); // Harga Termurah
+                break;
+            case 'date_desc': // Tanggal event dari yang terbaru (paling dekat)
+                $query->orderBy('date', 'desc'); // Kolom 'date' untuk tanggal event
+                break;
+            case 'date_asc': // Tanggal event dari yang terlama
+                $query->orderBy('date', 'asc');
+                break;
+            case 'newly_added':
+            default:
+                $query->orderBy('created_at', 'desc'); // Default: berdasarkan kapan event ditambahkan
+                break;
+        }
+
+        $events = $query->paginate(12); // Menggunakan pagination, tampilkan 12 event per halaman
+
+        return view('tickets', compact('events', 'sortBy', 'searchQuery'));
     }
 
-    $events = $query->get();
+    public function listpembeli(Event $event)
+    {
+        // Eager load relasi 'pembelians' (atau nama relasi yang Anda definisikan di model Event)
+        // dan untuk setiap pembelian, muat juga relasi 'user' (pembeli)
+        // Anda juga bisa memuat 'tickets' jika diperlukan per pembelian
+        $event->load(['pembelians' => function ($query) {
+            $query->with('user')->orderBy('tanggal_pembelian', 'desc');
+        }]);
 
-    return view('tickets', compact('events'));
-}
+        // Variabel $event sekarang akan memiliki koleksi 'pembelians',
+        // dan setiap item 'pembelian' di dalamnya akan memiliki objek 'user'.
+        return view('eventdetail', compact('event'));
+    }
 
     // Tampilkan halaman event beserta data event
     public function index()
@@ -101,5 +144,45 @@ class EventController extends Controller
         $event->delete();
 
         return redirect()->route('event.index')->with('success', 'Event berhasil dihapus!');
+    }
+
+    public function checkInAttendee(Request $request, Event $event)
+    {
+        $validator = Validator::make($request->all(), [
+            'unique_code' => 'required|string|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['success' => false, 'message' => $validator->errors()->first()], 400);
+        }
+
+        $uniqueCode = $request->input('unique_code');
+
+        // Cari pembelian berdasarkan event_id dan kode_unik
+        // Sesuaikan 'kode_unik' dengan nama kolom yang Anda gunakan (misal: 'nomor_invoice')
+        $pembelian = Pembelian::where('event_id', $event->id)
+                              ->where('unique_code', $uniqueCode) 
+                              ->first();
+
+        if (!$pembelian) {
+            return response()->json(['success' => false, 'message' => 'Kode unik tidak valid atau tidak ditemukan untuk event ini.'], 404);
+        }
+
+        // Sesuaikan 'status_kehadiran' dan nilai 'hadir'
+        if ($pembelian->status === 'hadir') {
+            return response()->json(['success' => true, 'message' => 'Peserta sudah melakukan check-in sebelumnya.'], 200);
+        }
+
+        $pembelian->status = 'hadir';
+        $pembelian->save();
+
+        // Anda mungkin ingin memuat relasi user jika akan ditampilkan kembali
+        // $pembelian->load('user'); 
+
+        return response()->json([
+            'success' => true, 
+            'message' => 'Check-in berhasil untuk ' . ($pembelian->user ? $pembelian->user->name : $uniqueCode) . '.',
+            // 'pembelian' => $pembelian // Opsional: kirim data pembelian yang diperbarui
+        ], 200);
     }
 }
