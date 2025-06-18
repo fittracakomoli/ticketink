@@ -65,7 +65,7 @@
             @endforeach
             </div>
             <div class="w-full text-center">
-                <button type="button" class="rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100">Jelajahi Lebih Banyak</button>
+                <a href="{{ route('event.show') }}" class="rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100">Jelajahi Lebih Banyak</a>
             </div>
         </div>
     </section>
@@ -75,7 +75,7 @@
             <div class="mx-auto max-w-screen-lg text-center">
                 <h2 class="mb-4 text-4xl tracking-tight font-extrabold leading-tight text-gray-900">Jangan Lewatkan Event Spesial Di Kotamu.</h2>
                 <p class="mb-6 font-light text-gray-500 md:text-lg">Buat akun dan beli tiketmu sekarang.</p>
-                <a href="#" class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">Daftar Sekarang!</a>
+                <a href="{{ route('register') }}" class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">Daftar Sekarang!</a>
             </div>
         </div>
     </section>

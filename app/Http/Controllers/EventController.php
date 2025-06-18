@@ -6,6 +6,7 @@ use App\Models\Event;
 use App\Models\Pembelian;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Validator;
 
 class EventController extends Controller
@@ -15,6 +16,7 @@ class EventController extends Controller
     {
         // Event populer: status 'accept', urut terbanyak terjual, limit 4
         $popularEvents = Event::withCount('pembelians')
+            ->where('date', '>=', Carbon::now())
             ->where('status', 'accept')
             ->orderBy('pembelians_count', 'desc')
             ->limit(4)
@@ -27,7 +29,7 @@ class EventController extends Controller
 
     public function show(Request $request)
     {
-        $query = Event::where('status', 'accept');
+        $query = Event::where('status', 'accept')->where('date', '>=' , Carbon::now());
         $searchQuery = $request->input('q', '');
         $sortBy = $request->input('sort_by', 'newly_added'); // Default sorting: baru ditambahkan
 

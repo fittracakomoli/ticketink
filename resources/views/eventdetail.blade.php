@@ -230,6 +230,8 @@
           </div>
         </div>
 
+        <audio id="beep-sound" src="{{ asset('sounds/beep.mp3') }}" preload="auto"></audio>
+
         <script src="https://unpkg.com/html5-qrcode@2.0.9/dist/html5-qrcode.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -243,6 +245,7 @@
             const manualCodeInput = document.getElementById('manual-code-input');
             const submitManualCodeButton = document.getElementById('submit-manual-code-button');
             const manualCheckinResultsElement = document.getElementById('manual-checkin-results');
+            const beepSound = document.getElementById('beep-sound');
 
             const eventId = {{ $event->id }}; // Get event ID
 
@@ -270,6 +273,10 @@
                   })
                   .then(data => {
                     if(data.success) {
+                        if (beepSound) {
+                            beepSound.currentTime = 0; // Putar dari awal
+                            beepSound.play().catch(error => console.error("Gagal memutar audio:", error));
+                        }
                         manualCheckinResultsElement.textContent = `Sukses: ${data.message}`;
                         qrReaderResultsElement.textContent = `Sukses: ${data.message}`;
                         // Optionally, refresh part of the page or the whole page

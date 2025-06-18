@@ -110,4 +110,19 @@ class PurchaseController extends Controller
         return view('tiketsaya', compact('purchases'));
     }
     
+    public function showTransactions()
+    {
+        // Mengambil semua data pembelian, diurutkan dari yang terbaru.
+        $transactions = Pembelian::latest('tanggal_pembelian')->get();
+
+        // Menghitung total biaya layanan dari semua pembelian.
+        // Anda bisa menambahkan ->where('status_pembayaran', 'paid') jika hanya ingin menghitung yang sudah lunas.
+        $totalServiceFee = Pembelian::sum('biaya_layanan');
+
+        // Mengirim data ke view 'transaction'
+        return view('transaction', [
+            'transactions' => $transactions,
+            'totalServiceFee' => $totalServiceFee,
+        ]);
+    }
 }

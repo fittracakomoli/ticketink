@@ -103,7 +103,7 @@
                                 <p class="text-xs font-medium text-gray-500">{{ Carbon\Carbon::parse($event->date)->format('d F Y') }}</p>
                             </div>
                         </div>
-                        <a href="#" class="text-lg font-semibold leading-tight text-gray-900 hover:underline">{{ $event->name }}</a>
+                        <a href="{{ route('ticket.detail', $event->slug) }}" class="text-lg font-semibold leading-tight text-gray-900 hover:underline">{{ $event->name }}</a>
                         <ul class="mt-2 flex items-center gap-4">
                             <li class="flex items-center gap-2">
                                 <svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
@@ -116,26 +116,16 @@
                             <p class="text-lg font-extrabold leading-tight text-gray-900">Rp {{ number_format($event->price, 0, ',', '.') }}</p>
                             @auth
                             <div class="flex items-center gap-2">
-                                <button type="button" class="inline-flex items-center rounded-lg border border-primary-300 p-2.5 text-sm font-medium text-white hover:bg-primary-800">
-                                    <svg class="h-5 w-5 text-primary-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6" />
-                                    </svg>
-                                </button>
-                                <a href="#" class="bg-primary-700 text-white text-base px-4 py-2.5 rounded-lg hover:bg-primary-900">
-                                    Beli
+                                <a href="{{ route('ticket.detail', $event->slug) }}" class="bg-primary-700 text-white text-xs px-4 py-2.5 rounded-lg hover:bg-primary-900">
+                                    Dapatkan
                                 </a>
                             </div>
                             @endauth
 
                             @guest
                             <div class="flex items-center gap-2">
-                                <button type="button" class="inline-flex items-center rounded-lg border border-primary-300 p-2.5 text-sm font-medium text-white hover:bg-primary-800">
-                                    <svg class="h-5 w-5 text-primary-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6" />
-                                    </svg>
-                                </button>
                                 <a href="{{ route('login') }}" class="bg-primary-700 text-white text-base px-4 py-2.5 rounded-lg hover:bg-primary-900">
-                                    Beli
+                                    Dapatkan
                                 </a>
                             </div>
                             @endguest
