@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\User;
+use App\Models\Event;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\ProfileController;
@@ -18,7 +20,16 @@ Route::get('/contact', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $adminCount = User::where('role', 'admin')->count(); 
+    $userCount = User::count();
+    $eventCount = Event::count();
+
+
+    return view('dashboard', [
+        'adminCount' => $adminCount,
+        'userCount' => $userCount,
+        'eventCount' => $eventCount,
+    ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
